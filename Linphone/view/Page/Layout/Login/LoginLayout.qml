@@ -163,10 +163,13 @@ Rectangle {
 		}
 		Image {
 			id: bottomMountains
-			source: AppIcons.belledonne
-			fillMode: Image.Stretch
 			Layout.fillWidth: true
-            Layout.preferredHeight: Utils.getSizeWithScreenRatio(108)
+			Layout.preferredHeight: Utils.getSizeWithScreenRatio(140)
+			Layout.bottomMargin: Utils.getSizeWithScreenRatio(20)
+			source: AppIcons.logo
+			fillMode: Image.PreserveAspectFit
+			sourceSize.height: Utils.getSizeWithScreenRatio(280)
+			smooth: true
 		}
 	}
 

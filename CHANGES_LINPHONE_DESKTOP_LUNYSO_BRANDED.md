@@ -29,6 +29,7 @@ This is a front-end-only rebrand of linphone-desktop. All C++ namespaces, CMake 
 | `Linphone/data/image/logo.svg` | Replaced with Lunyso SVG logo |
 | `Linphone/data/image/logo_margins.svg` | Replaced with Lunyso SVG logo |
 | `Linphone/data/image/belledonne.svg` | Replaced with Lunyso SVG logo (was login page decorative background) |
+| `Linphone/view/Page/Layout/Login/LoginLayout.qml` | Replaced stretched `belledonne` Image (fillMode Stretch, 108px) with a centered aspect-preserved LUNYSO logo (140px, PreserveAspectFit, 2x sourceSize) at the bottom of the login layout |
 | `Linphone/data/icon/hicolor/*/apps/icon.png` | Replaced at 16, 22, 24, 32, 64, 128, 256, 512, 1024px |
 | `lunyso-logo.svg` | Added — Lunyso master logo at repo root |
 | `Linphone/data/image/lunyso-logo.svg` | Added — Lunyso master logo in image assets |
