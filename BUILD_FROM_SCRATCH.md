@@ -200,3 +200,39 @@ cmake --build build --parallel $(nproc)
 cmake --install build
 ./build/OUTPUT/bin/lunyso
 ```
+
+---
+
+## 11. CI/CD — Windows installer pipeline
+
+The repo includes a `.gitlab-ci.yml` that automatically builds a Windows
+installer (`.exe`) on every push to `main` or a tag.
+
+**Pipeline triggers:**
+- Push to `main` branch
+- Any git tag (e.g. `v1.0.0`)
+
+**What it does:**
+1. Spins up a GitLab shared Windows runner (`saas-windows-medium-amd64`)
+2. Installs Qt 6.7.3 via `aqtinstall`, cmake, NSIS
+3. Clones/updates linphone-sdk submodules sequentially (avoids rate-limit)
+4. Configures, builds, installs the app
+5. Bundles Qt DLLs via `windeployqt`
+6. Generates an NSIS installer via `cpack -G NSIS`
+7. Uploads `LUNYSO-*.exe` as a downloadable artifact (kept 90 days)
+
+**To get the installer:**
+GitLab → CI/CD → Pipelines → click the job → Download artifacts
+
+**First run is slow (~30–40 min)** — full SDK compile from scratch.
+Subsequent runs are faster due to the SDK cache keyed on branch name.
+
+**Note:** Users must re-download and reinstall manually for each update.
+Auto-update is a planned future feature.
+
+---
+
+## TODO
+
+- [ ] **Auto-update** — implement in-app update check and installer download
+      so users get updates without manually re-downloading the `.exe`
