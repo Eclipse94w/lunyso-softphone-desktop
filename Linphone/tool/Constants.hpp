@@ -80,7 +80,7 @@ public:
 	static constexpr char LinphoneBZip2_exe[] = "https://www.linphone.org/releases/windows/tools/bzip2/bzip2.exe";
 	static constexpr char LinphoneBZip2_dll[] = "https://www.linphone.org/releases/windows/tools/bzip2/bzip2.dll";
 	static constexpr char DefaultRlsUri[] = "sips:rls@sip.linphone.org";
-	static constexpr char DefaultLogsEmail[] = "linphone-desktop@belledonne-communications.com";
+	static constexpr char DefaultLogsEmail[] = "contact@lunyso.com";
 
 	static constexpr char DefaultFlexiAPIURL[] = "https://subscribe.linphone.org/api/"; // Need "/" at the end
 	static constexpr char RemoteProvisioningURL[] = "https://subscribe.linphone.org/api/provisioning";
