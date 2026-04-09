@@ -1,57 +1,93 @@
-#################################################
-# Base configuration
-#################################################
-
-variables:
-  GIT_SUBMODULE_STRATEGY: recursive
-  MAKEFILE_JOBS: 5
-  CCACHE_SIZE: 2G
-#this option is used to speedup submodule building times, when we don't need to trace debug (like SDK where it is already tested in its project)
-  LBC_NODEBUG_OPTIONS : --parallel $MAKEFILE_JOBS
-  DEFAULT_LINUX_CMAKE_OPTIONS: -DCMAKE_BUILD_PARALLEL_LEVEL=$MAKEFILE_JOBS
-  DEFAULT_MACOS_CMAKE_OPTIONS: -DCMAKE_BUILD_PARALLEL_LEVEL=$MAKEFILE_JOBS
-  DEFAULT_WINDOWS_CMAKE_OPTIONS: -DCMAKE_BUILD_PARALLEL_LEVEL=$MAKEFILE_JOBS
-
-#  DEFAULT_LINUX_CMAKE_OPTIONS: -DENABLE_NON_FREE_CODECS=YES -DENABLE_OPENH264=YES
-#  DEFAULT_MACOS_CMAKE_OPTIONS: -DCMAKE_OSX_DEPLOYMENT_TARGET=10.11 -DENABLE_UPDATE_CHECK=YES
-#  DEFAULT_WINDOWS_CMAKE_OPTIONS: -DENABLE_NON_FREE_CODECS=YES -DENABLE_OPENH264=YES -DENABLE_UPDATE_CHECK=YES
-
- #activated by default, if there is a problem, see the default
-  #build options in CMakeBuilder
-  #CMAKE_OPTIONS: -DENABLE_LIME_X3DH=YES
-
-# Docker image version
-  UBUNTU_2204_IMAGE_VERSION: 20260209_add_qt_6.8.3_opensource
-
-
-workflow:
-  rules:
-    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"
-      when: never
-    #Launch merge request pipeline is there is a merge request open
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TITLE !~ /^Draft:.*/
-    #Launch pipeline if there is a schedule event
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-
-#################################################
-# Platforms to test
-#################################################
-
-.prepare:
-  variables:
-    ALL_JOB_VARIABLE: ""
-
-include:
-  - '.gitlab-ci-files/rules.yml'
-  - '.gitlab-ci-files/linux-prepare.yml'
-  - '.gitlab-ci-files/linux-desktop.yml'
-  - '.gitlab-ci-files/linux-desktop-ubuntu-2204.yml'
-  - '.gitlab-ci-files/windows-desktop.yml'
-  - '.gitlab-ci-files/macosx-desktop.yml'
-
+# ─────────────────────────────────────────────────────────────────
+# LUNYSO Desktop — CI/CD
+# Builds a Windows installer (.exe) on every push to main or tag.
+# Artifact is downloadable directly from GitLab for 90 days.
+# ─────────────────────────────────────────────────────────────────
 
 stages:
   - build
-  - package
-  - signing
-  - deploy
+
+variables:
+  GIT_STRATEGY: fetch
+  GIT_SUBMODULE_STRATEGY: none          # SDK handled manually (rate-limit safe)
+  QT_VERSION: "6.7.3"
+  QT_ARCH: "win64_msvc2019_64"
+  QT_MODULES: "qtnetworkauth qtquick3d qtwebsockets qtmultimedia"
+
+# ── Windows installer ──────────────────────────────────────────
+windows-installer:
+  stage: build
+  tags:
+    - saas-windows-medium-amd64
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_TAG'
+
+  cache:
+    key: "sdk-$CI_COMMIT_REF_SLUG"
+    paths:
+      - external/linphone-sdk/
+    policy: pull-push
+
+  before_script:
+    # Chocolatey packages (cmake, ninja, nasm, nsis, python already on GitLab Windows image)
+    - choco install -y cmake --installargs "ADD_CMAKE_TO_PATH=System" --version 3.28.4 | Out-Null
+    - choco install -y nsis nasm python --no-progress | Out-Null
+    - refreshenv
+
+    # Python helpers required by linphone SDK cmake
+    - pip install --quiet pystache six aqtinstall
+
+    # Qt 6 via aqtinstall
+    - aqt install-qt windows desktop $env:QT_VERSION $env:QT_ARCH --modules $env:QT_MODULES --outputdir C:\Qt
+    - $env:Qt6_DIR  = "C:\Qt\$env:QT_VERSION\msvc2019_64\lib\cmake\Qt6"
+    - $env:PATH     = "C:\Qt\$env:QT_VERSION\msvc2019_64\bin;" + $env:PATH
+
+    # Visual Studio environment (VS 2022 is pre-installed on saas-windows-medium)
+    - '& "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"'
+
+  script:
+    # ── 1. SDK submodules (use cache if present, else fresh clone) ──
+    - |
+      if (-Not (Test-Path "external/linphone-sdk/.git")) {
+        Write-Output "=== Cloning linphone-sdk ==="
+        Remove-Item -Recurse -Force external/linphone-sdk -ErrorAction SilentlyContinue
+        git clone --depth 1 https://gitlab.linphone.org/BC/public/linphone-sdk.git external/linphone-sdk
+      }
+      Write-Output "=== Updating SDK submodules (sequential to avoid rate-limit) ==="
+      $attempts = 0
+      do {
+        $attempts++
+        Write-Output "Attempt $attempts..."
+        git -C external/linphone-sdk submodule update --init --recursive --jobs 1
+      } while ($LASTEXITCODE -ne 0 -and $attempts -lt 8)
+      if ($LASTEXITCODE -ne 0) { throw "SDK submodule init failed after $attempts attempts" }
+
+    # ── 2. Configure ──────────────────────────────────────────────
+    - |
+      cmake -B build -G Ninja `
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo `
+        -DQt6_DIR="$env:Qt6_DIR" `
+        -DENABLE_APP_PACKAGING=YES `
+        -DENABLE_PQCRYPTO=ON `
+        -DENABLE_GPL_THIRD_PARTIES=OFF
+
+    # ── 3. Build ──────────────────────────────────────────────────
+    - cmake --build build --parallel
+
+    # ── 4. Install (populates share/ with grammar files etc.) ──────
+    - cmake --install build
+
+    # ── 5. Bundle Qt DLLs next to the .exe ────────────────────────
+    - windeployqt build/OUTPUT/bin/lunyso.exe --qmldir Linphone/view --release
+
+    # ── 6. Package → NSIS .exe installer ─────────────────────────
+    - cd build && cpack -G NSIS -C RelWithDebInfo
+    - cd ..
+
+  artifacts:
+    name: "LUNYSO-Windows-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - build/OUTPUT/Packages/LUNYSO-*.exe
+    expire_in: 90 days
+    when: on_success
