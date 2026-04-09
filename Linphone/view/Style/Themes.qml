@@ -59,6 +59,14 @@ QtObject {
                 "main500": "#800080",
                 "main600": "#660066",
                 "main700": "#520052"
+            },
+            "lunyso": {
+                "main100": "#D6E9FF",
+                "main200": "#ADCFFF",
+                "main300": "#7AB2FF",
+                "main500": "#0068FF",
+                "main600": "#0054CC",
+                "main700": "#003D99"
             }
         }
     }

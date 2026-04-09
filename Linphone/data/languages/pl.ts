@@ -280,7 +280,7 @@
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="201"/>
         <source>manage_account_delete_message</source>
-        <translation>Twoje konto zostanie usunięte z tego klienta Linphone, ale pozostaniesz połączony z innymi klientami.</translation>
+        <translation>Twoje konto zostanie usunięte z tego klienta Lunyso, ale pozostaniesz połączony z innymi klientami.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="220"/>
@@ -1914,7 +1914,7 @@
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="20"/>
         <source>settings_contacts_carddav_subtitle</source>
         <extracomment>&quot;Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.&quot;</extracomment>
-        <translation>Dodaj książkę adresową CardDAV, aby zsynchronizować kontakty Linphone z książką adresową innej firmy.</translation>
+        <translation>Dodaj książkę adresową CardDAV, aby zsynchronizować kontakty Lunyso z książką adresową innej firmy.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="31"/>
@@ -3225,7 +3225,7 @@ Error</extracomment>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="22"/>
         <source>settings_contacts_carddav_subtitle</source>
-        <translation>Dodaj książkę adresową CardDAV, aby zsynchronizować kontakty Linphone z książką adresową innej firmy.</translation>
+        <translation>Dodaj książkę adresową CardDAV, aby zsynchronizować kontakty Lunyso z książką adresową innej firmy.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="42"/>

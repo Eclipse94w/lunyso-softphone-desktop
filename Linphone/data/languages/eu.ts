@@ -261,7 +261,7 @@
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="188"/>
         <source>manage_account_delete_message</source>
-        <translation>Zure kontua Linphone bezero honetatik kenduko da, baina beste bezero batzuekin konektatuta jarraituko duzu</translation>
+        <translation>Zure kontua Lunyso bezero honetatik kenduko da, baina beste bezero batzuekin konektatuta jarraituko duzu</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="207"/>
@@ -1842,7 +1842,7 @@
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="19"/>
         <source>settings_contacts_carddav_subtitle</source>
         <extracomment>&quot;Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.&quot;</extracomment>
-        <translation>Gehitu CardDAV helbide-liburua zure Linphone kontaktuak hirugarrenen helbide-liburu batekin sinkronizatzeko.</translation>
+        <translation>Gehitu CardDAV helbide-liburua zure Lunyso kontaktuak hirugarrenen helbide-liburu batekin sinkronizatzeko.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="30"/>
@@ -3091,7 +3091,7 @@ Error</extracomment>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="22"/>
         <source>settings_contacts_carddav_subtitle</source>
-        <translation>Gehitu CardDAV helbide-liburua zure Linphone kontaktuak hirugarrenen helbide-liburu batekin sinkronizatzeko.</translation>
+        <translation>Gehitu CardDAV helbide-liburua zure Lunyso kontaktuak hirugarrenen helbide-liburu batekin sinkronizatzeko.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="42"/>
@@ -5518,7 +5518,7 @@ Proiektu komertzial batean gaitzeko, jarri gurekin harremanetan.</translation>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="56"/>
         <source>manage_account_e2e_encrypted_mode_interoperable_summary</source>
         <extracomment>&quot;Ce mode vous permet de profiter de toute les fonctionnalités de Linphone, toute en restant interopérable avec n’importe qu’elle autre service SIP.&quot;</extracomment>
-        <translation>Modu honek Linphone-en ezaugarri guztiak baliatzeko aukera ematen dizu, beste edozein SIP zerbitzurekin elkarreragingarria izaten jarraituz.</translation>
+        <translation>Modu honek Lunyso-en ezaugarri guztiak baliatzeko aukera ematen dizu, beste edozein SIP zerbitzurekin elkarreragingarria izaten jarraituz.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="76"/>

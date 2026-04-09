@@ -716,7 +716,7 @@
         <location filename="../../core/App.cpp" line="548"/>
         <source>info_popup_new_version_available_message</source>
         <extracomment>A new version of Linphone (%1) is available. %2</extracomment>
-        <translation>Une nouvelle version de Linphone (%1) est disponible. %2</translation>
+        <translation>Une nouvelle version de Lunyso (%1) est disponible. %2</translation>
     </message>
     <message>
         <location filename="../../core/App.cpp" line="556"/>
@@ -1999,7 +1999,7 @@
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="20"/>
         <source>settings_contacts_carddav_subtitle</source>
         <extracomment>&quot;Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.&quot;</extracomment>
-        <translation>Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.</translation>
+        <translation>Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Lunyso avec un carnet d’adresse tiers.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="31"/>
@@ -3445,7 +3445,7 @@ en bout. Seul votre correspondant peut les déchiffrer.</translation>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="22"/>
         <source>settings_contacts_carddav_subtitle</source>
-        <translation>Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.</translation>
+        <translation>Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Lunyso avec un carnet d’adresse tiers.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="42"/>
@@ -6279,7 +6279,7 @@ Pour les activer dans un projet commercial, merci de nous contacter.</translatio
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="57"/>
         <source>manage_account_e2e_encrypted_mode_interoperable_summary</source>
         <extracomment>&quot;Ce mode vous permet de profiter de toute les fonctionnalités de Linphone, toute en restant interopérable avec n’importe qu’elle autre service SIP.&quot;</extracomment>
-        <translation>Ce mode vous permet de profiter de toute les fonctionnalités de Linphone, toute en restant interopérable avec n’importe qu’elle autre service SIP.</translation>
+        <translation>Ce mode vous permet de profiter de toute les fonctionnalités de Lunyso, toute en restant interopérable avec n’importe qu’elle autre service SIP.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="77"/>

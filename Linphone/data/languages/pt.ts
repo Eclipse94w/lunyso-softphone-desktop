@@ -261,7 +261,7 @@
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="188"/>
         <source>manage_account_delete_message</source>
-        <translation>Sua conta será desconectada deste cliente Linphone, mas você permanecerá conectado em outros aplicativos</translation>
+        <translation>Sua conta será desconectada deste cliente Lunyso, mas você permanecerá conectado em outros aplicativos</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="207"/>
@@ -662,7 +662,7 @@
         <location filename="../../core/App.cpp" line="945"/>
         <source>command_line_option_config_to_fetch</source>
         <extracomment>&quot;Specify the linphone configuration file to be fetched. It will be merged with the current configuration.&quot;</extracomment>
-        <translation>Especifique o arquivo de configuração do Linphone a ser obtido. Ele será mesclado com a configuração atual.</translation>
+        <translation>Especifique o arquivo de configuração do Lunyso a ser obtido. Ele será mesclado com a configuração atual.</translation>
     </message>
     <message>
         <location filename="../../core/App.cpp" line="947"/>

@@ -271,7 +271,7 @@
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="188"/>
         <source>manage_account_delete_message</source>
-        <translation>Váš účet bude z tohoto klienta Linphone odstraněn, ale v ostatních klientech zůstanete připojeni</translation>
+        <translation>Váš účet bude z tohoto klienta Lunyso odstraněn, ale v ostatních klientech zůstanete připojeni</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="207"/>
@@ -757,7 +757,7 @@
     <message>
         <location filename="../../core/App.cpp" line="459"/>
         <source>info_popup_new_version_available_message</source>
-        <translation>Nová verze Linphone (%1) je k dispozici na %1</translation>
+        <translation>Nová verze Lunyso (%1) je k dispozici na %1</translation>
     </message>
     <message>
         <location filename="../../core/App.cpp" line="465"/>
@@ -1909,7 +1909,7 @@
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="19"/>
         <source>settings_contacts_carddav_subtitle</source>
         <extracomment>&quot;Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.&quot;</extracomment>
-        <translation>Přidáním adresáře CardDAV můžete synchronizovat kontakty Linphone s adresářem třetí strany.</translation>
+        <translation>Přidáním adresáře CardDAV můžete synchronizovat kontakty Lunyso s adresářem třetí strany.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="30"/>
@@ -3217,7 +3217,7 @@ proto nezveřejňujte žádné citlivé informace!</translation>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="22"/>
         <source>settings_contacts_carddav_subtitle</source>
-        <translation>Přidáním adresáře CardDAV můžete synchronizovat kontakty Linphone s adresářem třetí strany.</translation>
+        <translation>Přidáním adresáře CardDAV můžete synchronizovat kontakty Lunyso s adresářem třetí strany.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="42"/>
@@ -5467,7 +5467,7 @@ Chcete-li je povolit v komerčním projektu, kontaktujte nás.</translation>
         <location filename="../../view/Page/Form/Login/SIPLoginPage.qml" line="133"/>
         <source>assistant_third_party_sip_account_create_linphone_account</source>
         <extracomment>&quot;Créer un compte linphone&quot;</extracomment>
-        <translation>Vytvořit účet Linphone</translation>
+        <translation>Vytvořit účet Lunyso</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Login/SIPLoginPage.qml" line="145"/>
@@ -5662,7 +5662,7 @@ Chcete-li je povolit v komerčním projektu, kontaktujte nás.</translation>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="56"/>
         <source>manage_account_e2e_encrypted_mode_interoperable_summary</source>
         <extracomment>&quot;Ce mode vous permet de profiter de toute les fonctionnalités de Linphone, toute en restant interopérable avec n’importe qu’elle autre service SIP.&quot;</extracomment>
-        <translation>Tento režim umožňuje využívat všechny funkce Linphone a zároveň je interoperabilní s jakoukoli jinou SIP službou.</translation>
+        <translation>Tento režim umožňuje využívat všechny funkce Lunyso a zároveň je interoperabilní s jakoukoli jinou SIP službou.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="76"/>

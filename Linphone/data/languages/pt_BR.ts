@@ -271,7 +271,7 @@
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="188"/>
         <source>manage_account_delete_message</source>
-        <translation>Sua conta será removida deste cliente Linphone, mas você continuará conectado em seus outros clientes</translation>
+        <translation>Sua conta será removida deste cliente Lunyso, mas você continuará conectado em seus outros clientes</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="207"/>
@@ -682,7 +682,7 @@
         <location filename="../../core/App.cpp" line="945"/>
         <source>command_line_option_config_to_fetch</source>
         <extracomment>&quot;Specify the linphone configuration file to be fetched. It will be merged with the current configuration.&quot;</extracomment>
-        <translation>Especifique o arquivo de configuração do Linphone a ser obtido. Ele será mesclado com a configuração atual.</translation>
+        <translation>Especifique o arquivo de configuração do Lunyso a ser obtido. Ele será mesclado com a configuração atual.</translation>
     </message>
     <message>
         <location filename="../../core/App.cpp" line="947"/>
@@ -1862,7 +1862,7 @@
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="19"/>
         <source>settings_contacts_carddav_subtitle</source>
         <extracomment>&quot;Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.&quot;</extracomment>
-        <translation>Adicione um catálogo de endereços CardDAV para sincronizar seus contatos do Linphone com um catálogo de endereços de terceiros.</translation>
+        <translation>Adicione um catálogo de endereços CardDAV para sincronizar seus contatos do Lunyso com um catálogo de endereços de terceiros.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="30"/>
@@ -3113,7 +3113,7 @@ Apenas seu correspondente pode descriptografá-las.</translation>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="22"/>
         <source>settings_contacts_carddav_subtitle</source>
-        <translation>Adicione um catálogo de endereços CardDAV para sincronizar seus contatos do Linphone com um catálogo de endereços de terceiros.</translation>
+        <translation>Adicione um catálogo de endereços CardDAV para sincronizar seus contatos do Lunyso com um catálogo de endereços de terceiros.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="42"/>
@@ -5340,7 +5340,7 @@ Para habilitá-las em um projeto comercial, por favor, entre em contato conosco.
         <location filename="../../view/Page/Form/Login/SIPLoginPage.qml" line="133"/>
         <source>assistant_third_party_sip_account_create_linphone_account</source>
         <extracomment>&quot;Créer un compte linphone&quot;</extracomment>
-        <translation>Criar uma conta Linphone</translation>
+        <translation>Criar uma conta Lunyso</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Login/SIPLoginPage.qml" line="145"/>
@@ -5535,7 +5535,7 @@ Para habilitá-las em um projeto comercial, por favor, entre em contato conosco.
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="56"/>
         <source>manage_account_e2e_encrypted_mode_interoperable_summary</source>
         <extracomment>&quot;Ce mode vous permet de profiter de toute les fonctionnalités de Linphone, toute en restant interopérable avec n’importe qu’elle autre service SIP.&quot;</extracomment>
-        <translation>Este modo permite que você desfrute de todas as funcionalidades do Linphone, mantendo interoperatividade com outros serviços SIP.</translation>
+        <translation>Este modo permite que você desfrute de todas as funcionalidades do Lunyso, mantendo interoperatividade com outros serviços SIP.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="76"/>

@@ -261,7 +261,7 @@
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="188"/>
         <source>manage_account_delete_message</source>
-        <translation>Ваш обліковий запис буде видалено з цього клієнта Linphone, але ви залишитеся підключеними в інших клієнтах.</translation>
+        <translation>Ваш обліковий запис буде видалено з цього клієнта Lunyso, але ви залишитеся підключеними в інших клієнтах.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="207"/>
@@ -1844,7 +1844,7 @@
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="19"/>
         <source>settings_contacts_carddav_subtitle</source>
         <extracomment>&quot;Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.&quot;</extracomment>
-        <translation>Додайте адресну книгу CardDAV, щоб синхронізувати контакти Linphone із адресною книгою стороннього виробника.</translation>
+        <translation>Додайте адресну книгу CardDAV, щоб синхронізувати контакти Lunyso із адресною книгою стороннього виробника.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="30"/>
@@ -3095,7 +3095,7 @@ Error</extracomment>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="22"/>
         <source>settings_contacts_carddav_subtitle</source>
-        <translation>Додайте адресну книгу CardDAV, щоб синхронізувати контакти Linphone із адресною книгою стороннього виробника.</translation>
+        <translation>Додайте адресну книгу CardDAV, щоб синхронізувати контакти Lunyso із адресною книгою стороннього виробника.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="42"/>
@@ -5323,7 +5323,7 @@ Pour les activer dans un projet commercial, merci de nous contacter.</source>
         <location filename="../../view/Page/Form/Login/SIPLoginPage.qml" line="133"/>
         <source>assistant_third_party_sip_account_create_linphone_account</source>
         <extracomment>&quot;Créer un compte linphone&quot;</extracomment>
-        <translation>Створити обліковий запис Linphone</translation>
+        <translation>Створити обліковий запис Lunyso</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Login/SIPLoginPage.qml" line="145"/>
@@ -5518,7 +5518,7 @@ Pour les activer dans un projet commercial, merci de nous contacter.</source>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="56"/>
         <source>manage_account_e2e_encrypted_mode_interoperable_summary</source>
         <extracomment>&quot;Ce mode vous permet de profiter de toute les fonctionnalités de Linphone, toute en restant interopérable avec n’importe qu’elle autre service SIP.&quot;</extracomment>
-        <translation>Цей режим дозволяє вам користуватися всіма функціями Linphone, залишаючись сумісним з будь-яким іншим SIP-сервісом.</translation>
+        <translation>Цей режим дозволяє вам користуватися всіма функціями Lunyso, залишаючись сумісним з будь-яким іншим SIP-сервісом.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="76"/>

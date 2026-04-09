@@ -261,7 +261,7 @@
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="188"/>
         <source>manage_account_delete_message</source>
-        <translation>您的账户将从此Linphone客户端中删除，但您将在其他客户端上保持连接</translation>
+        <translation>您的账户将从此Lunyso客户端中删除，但您将在其他客户端上保持连接</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="207"/>
@@ -1845,7 +1845,7 @@
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="19"/>
         <source>settings_contacts_carddav_subtitle</source>
         <extracomment>&quot;Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.&quot;</extracomment>
-        <translation>添加CardDAV通讯簿，将您的Linphone联系人与第三方通讯簿同步。</translation>
+        <translation>添加CardDAV通讯簿，将您的Lunyso联系人与第三方通讯簿同步。</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="30"/>
@@ -3092,7 +3092,7 @@ Error</extracomment>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="22"/>
         <source>settings_contacts_carddav_subtitle</source>
-        <translation>添加CardDAV通讯簿，将您的Linphone联系人与第三方通讯簿同步。</translation>
+        <translation>添加CardDAV通讯簿，将您的Lunyso联系人与第三方通讯簿同步。</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="42"/>
@@ -5518,7 +5518,7 @@ Pour les activer dans un projet commercial, merci de nous contacter.</source>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="56"/>
         <source>manage_account_e2e_encrypted_mode_interoperable_summary</source>
         <extracomment>&quot;Ce mode vous permet de profiter de toute les fonctionnalités de Linphone, toute en restant interopérable avec n’importe qu’elle autre service SIP.&quot;</extracomment>
-        <translation>此模式允许您受益于Linphone的所有功能，同时保持与任何其他SIP服务的互操作性。</translation>
+        <translation>此模式允许您受益于Lunyso的所有功能，同时保持与任何其他SIP服务的互操作性。</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="76"/>

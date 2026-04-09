@@ -7,7 +7,7 @@ QtObject {
 
 	property var currentTheme: Themes.themes.hasOwnProperty(SettingsCpp.themeMainColor)
 							  ? Themes.themes[SettingsCpp.themeMainColor]
-							  : Themes.themes["orange"]
+							  : Themes.themes["lunyso"]
     property var main1_100: currentTheme.main100
     property var main1_200: currentTheme.main200
     property var main1_300: currentTheme.main300
@@ -15,16 +15,16 @@ QtObject {
     property var main1_600: currentTheme.main600
     property var main1_700: currentTheme.main700
 
-    property var main2_0: "#FAFEFF"
-    property var main2_100: "#EEF6F8"
-    property var main2_200: "#DFECF2"
-    property var main2_300: "#C0D1D9"
-    property var main2_400: "#9AABB5"
-    property var main2_500_main: "#6C7A87"
-    property var main2_600: "#4E6074"
-    property var main2_700: "#364860"
-    property var main2_800: "#22334D"
-    property var main2_900: "#2D3648"
+    property var main2_0: "#F5F7FA"
+    property var main2_100: "#E8EDF3"
+    property var main2_200: "#CDD6E3"
+    property var main2_300: "#A8B8CC"
+    property var main2_400: "#7A93AB"
+    property var main2_500_main: "#44546A"
+    property var main2_600: "#374455"
+    property var main2_700: "#2A3545"
+    property var main2_800: "#1E2A3A"
+    property var main2_900: "#141E2B"
 
     property var grey_0: "#FFFFFF"
     property var grey_100: "#F9F9F9"
@@ -67,9 +67,9 @@ QtObject {
     property string flagFont: "Noto Color Emoji"
     property string defaultFont: "Noto Sans"
 
-    property var numericPadPressedButtonColor: "#EEF7F8"
+    property var numericPadPressedButtonColor: "#D6E9FF"
 
-    property var groupCallButtonColor: "#EEF7F8"
+    property var groupCallButtonColor: "#D6E9FF"
 
     property var placeholders: '#CACACA'	// No name in design
     

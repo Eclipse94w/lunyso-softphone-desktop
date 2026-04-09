@@ -261,7 +261,7 @@
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="188"/>
         <source>manage_account_delete_message</source>
-        <translation>Ваша учетная запись будет удалена из Linphone, но вы всё ещё будете подключены на других клиентах</translation>
+        <translation>Ваша учетная запись будет удалена из Lunyso, но вы всё ещё будете подключены на других клиентах</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/AccountSettingsGeneralLayout.qml" line="207"/>
@@ -663,7 +663,7 @@
         <location filename="../../core/App.cpp" line="945"/>
         <source>command_line_option_config_to_fetch</source>
         <extracomment>&quot;Specify the linphone configuration file to be fetched. It will be merged with the current configuration.&quot;</extracomment>
-        <translation>Укажите файл конфигурации Linphone, который необходимо загрузить. Он будет объединён с текущей конфигурацией.</translation>
+        <translation>Укажите файл конфигурации Lunyso, который необходимо загрузить. Он будет объединён с текущей конфигурацией.</translation>
     </message>
     <message>
         <location filename="../../core/App.cpp" line="947"/>
@@ -1844,7 +1844,7 @@
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="19"/>
         <source>settings_contacts_carddav_subtitle</source>
         <extracomment>&quot;Ajouter un carnet d’adresse CardDAV pour synchroniser vos contacts Linphone avec un carnet d’adresse tiers.&quot;</extracomment>
-        <translation>Добавьте адресную книгу для синхронизации контактов Linphone с сторонней адресной книгой.</translation>
+        <translation>Добавьте адресную книгу для синхронизации контактов Lunyso с сторонней адресной книгой.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/CarddavSettingsLayout.qml" line="30"/>
@@ -3095,7 +3095,7 @@ Error</extracomment>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="22"/>
         <source>settings_contacts_carddav_subtitle</source>
-        <translation>Добавьте адресную книгу для синхронизации контактов Linphone с сторонней адресной книгой.</translation>
+        <translation>Добавьте адресную книгу для синхронизации контактов Lunyso с сторонней адресной книгой.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Layout/Settings/ContactsSettingsLayout.qml" line="42"/>
@@ -5518,7 +5518,7 @@ Pour les activer dans un projet commercial, merci de nous contacter.</source>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="56"/>
         <source>manage_account_e2e_encrypted_mode_interoperable_summary</source>
         <extracomment>&quot;Ce mode vous permet de profiter de toute les fonctionnalités de Linphone, toute en restant interopérable avec n’importe qu’elle autre service SIP.&quot;</extracomment>
-        <translation>Этот режим позволяет вам пользоваться всеми функциями Linphone, сохраняя при этом совместимость с любым другим SIP-сервисом.</translation>
+        <translation>Этот режим позволяет вам пользоваться всеми функциями Lunyso, сохраняя при этом совместимость с любым другим SIP-сервисом.</translation>
     </message>
     <message>
         <location filename="../../view/Page/Form/Security/SecurityModePage.qml" line="76"/>

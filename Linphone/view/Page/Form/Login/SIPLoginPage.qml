@@ -114,7 +114,7 @@ LoginLayout {
 						id: openLinkButton
 						Layout.alignment: Qt.AlignCenter
                         Layout.topMargin: Utils.getSizeWithScreenRatio(18)
-						text: "linphone.org/contact"
+						text: "lunyso.com/contact"
 						style: ButtonStyle.secondary
 						onClicked: {
 							Qt.openUrlExternally(ConstantsCpp.ContactUrl)
