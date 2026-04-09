@@ -49,6 +49,8 @@ SettingsModel::SettingsModel() {
 	auto core = CoreModel::getInstance()->getCore();
 	mConfig = core->getConfig();
 	CoreModel::getInstance()->getLogger()->applyConfig(mConfig);
+	// Migrate pre-LUNYSO orange theme to LUNYSO blue
+	if (getThemeMainColor() == "orange") setThemeMainColor("lunyso");
 	// Only activate on enabled. If not, we should keep old configuration.
 	if (dndEnabled()) enableDnd(true);
 	QObject::connect(
@@ -1179,7 +1181,7 @@ DEFINE_GETSET_CONFIG_STRING(SettingsModel,
 							themeMainColor,
 							ThemeMainColor,
 							"theme_main_color",
-							"orange")
+							"lunyso")
 DEFINE_GETSET_CONFIG_STRING(SettingsModel,
 							themeAboutPictureUrl,
 							ThemeAboutPictureUrl,

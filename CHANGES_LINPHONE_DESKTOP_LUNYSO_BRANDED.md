@@ -16,8 +16,10 @@ This is a front-end-only rebrand of linphone-desktop. All C++ namespaces, CMake 
 |------|--------|
 | `CMakeLists.txt` | `LINPHONEAPP_APPLICATION_NAME` → `"Lunyso"`, `LINPHONEAPP_EXECUTABLE_NAME` → `"lunyso"` |
 | `Linphone/application_info.cmake` | Description, URL (`lunyso.com`), vendor (`Lunyso`), app ID (`com.lunyso.*`) |
-| `Linphone/view/Style/Themes.qml` | Added `"lunyso"` theme entry |
+| `Linphone/view/Style/Themes.qml` | Added `"lunyso"` theme entry; **overrode `"orange"` entry with LUNYSO blue palette** so persisted `theme_main_color=orange` configs resolve to blue without migration |
 | `Linphone/view/Style/DefaultStyle.qml` | Default theme → `"lunyso"`, full `main2_*` palette update, accent color update |
+| `Linphone/model/setting/SettingsModel.cpp` | Default `themeMainColor` value changed from `"orange"` to `"lunyso"` |
+| `Linphone/core/setting/SettingsCore.cpp` | Added migration: existing configs with `"orange"` are silently updated to `"lunyso"` on startup |
 | `Linphone/view/Control/Popup/Notification/NotificationReceivedMessage.qml` | Hardcoded `"Linphone"` → `"Lunyso"` |
 | `Linphone/view/Control/Popup/Notification/NotificationReceivedCall.qml` | Hardcoded `"Linphone"` → `"Lunyso"` |
 | `Linphone/view/Page/Form/Login/SIPLoginPage.qml` | `linphone.org/contact` → `lunyso.com/contact` |
