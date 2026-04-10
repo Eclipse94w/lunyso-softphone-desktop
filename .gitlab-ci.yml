@@ -46,7 +46,7 @@ windows-installer:
     # Visual Studio environment (VS 2022 is pre-installed on saas-windows-medium)
     # vcvars64.bat is CMD — invoke via cmd /c and import env vars back into PowerShell
     - |
-        $vsPath = & vswhere -latest -property installationPath
+        $vsPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
         cmd /c """$vsPath\VC\Auxiliary\Build\vcvars64.bat"" && set" |
           ForEach-Object { if ($_ -match '^([^=]+)=(.*)$') { Set-Item "env:\$($matches[1])" $matches[2] } }
 
