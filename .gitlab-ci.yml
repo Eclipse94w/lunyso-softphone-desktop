@@ -36,7 +36,7 @@ windows-installer:
     - choco install -y cmake --installargs "ADD_CMAKE_TO_PATH=System" --version 3.28.4 | Out-Null
     - choco install -y nsis nasm ninja python msys2 --no-progress | Out-Null
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"; Update-SessionEnvironment
-    - $env:PATH = "C:\msys64;" + $env:PATH
+    - $env:PATH = "C:\msys64;C:\msys64\usr\bin;" + $env:PATH
 
     # Python helpers required by linphone SDK cmake
     - pip install --quiet pystache six aqtinstall
