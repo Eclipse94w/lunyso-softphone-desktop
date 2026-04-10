@@ -44,7 +44,11 @@ windows-installer:
     - $env:PATH     = "C:\Qt\$env:QT_VERSION\msvc2019_64\bin;" + $env:PATH
 
     # Visual Studio environment (VS 2022 is pre-installed on saas-windows-medium)
-    - '& "C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"'
+    # vcvars64.bat is CMD — invoke via cmd /c and import env vars back into PowerShell
+    - |
+        $vsPath = & vswhere -latest -property installationPath
+        cmd /c """$vsPath\VC\Auxiliary\Build\vcvars64.bat"" && set" |
+          ForEach-Object { if ($_ -match '^([^=]+)=(.*)$') { Set-Item "env:\$($matches[1])" $matches[2] } }
 
   script:
     # ── 1. SDK submodules (use cache if present, else fresh clone) ──
