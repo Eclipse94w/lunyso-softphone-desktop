@@ -66,7 +66,7 @@ windows-installer:
           ForEach-Object { if ($_ -match '^([^=]+)=(.*)$') { Set-Item "env:\$($matches[1])" $matches[2] } }
 
     # Restore paths that vcvars64.bat overwrites (it replaces $env:PATH with cmd.exe's PATH)
-    - $env:PATH = "C:\Qt\$env:QT_VERSION\msvc2019_64\bin;C:\msys64;C:\msys64\usr\bin;" + $env:PATH
+    - $env:PATH = "C:\Qt\$env:QT_VERSION\msvc2019_64\bin;C:\msys64;C:\msys64\usr\bin;C:\tools\msys64;C:\tools\msys64\usr\bin;" + $env:PATH
 
   script:
     # ── 1. SDK submodules (use cache if present, else fresh clone) ──
