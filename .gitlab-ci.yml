@@ -30,9 +30,11 @@ windows-installer:
     policy: pull-push
 
   before_script:
+    # C++ workload (vcvars64.bat, cl.exe, link.exe — not pre-installed on GitLab runners)
+    - choco install -y visualstudio2022-workload-vctools --no-progress --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
     # Chocolatey packages (cmake, ninja, nasm, nsis, python already on GitLab Windows image)
     - choco install -y cmake --installargs "ADD_CMAKE_TO_PATH=System" --version 3.28.4 | Out-Null
-    - choco install -y nsis nasm python --no-progress | Out-Null
+    - choco install -y nsis nasm ninja python --no-progress | Out-Null
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"; Update-SessionEnvironment
 
     # Python helpers required by linphone SDK cmake
@@ -46,6 +48,7 @@ windows-installer:
     # Find Visual Studio vcvars64.bat (edition varies per runner image)
     - |
         $vcvarsLocations = @(
+          'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat',
           'C:\Program Files\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat',
           'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat',
           'C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvars64.bat',
