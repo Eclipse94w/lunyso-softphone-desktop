@@ -39,7 +39,7 @@ windows-installer:
     - pip install --quiet pystache six aqtinstall
 
     # Qt 6 via aqtinstall
-    - aqt install-qt windows desktop $env:QT_VERSION $env:QT_ARCH --modules $env:QT_MODULES --outputdir C:\Qt
+    - aqt install-qt windows desktop $env:QT_VERSION $env:QT_ARCH --modules $env:QT_MODULES.Split(' ') --outputdir C:\Qt
     - $env:Qt6_DIR  = "C:\Qt\$env:QT_VERSION\msvc2019_64\lib\cmake\Qt6"
     - $env:PATH     = "C:\Qt\$env:QT_VERSION\msvc2019_64\bin;" + $env:PATH
 
