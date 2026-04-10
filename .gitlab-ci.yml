@@ -34,12 +34,12 @@ windows-installer:
     - choco install -y visualstudio2022-workload-vctools --no-progress --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
     # Chocolatey packages (cmake, ninja, nasm, nsis, python already on GitLab Windows image)
     - choco install -y cmake --installargs "ADD_CMAKE_TO_PATH=System" --version 3.28.4 | Out-Null
-    - choco install -y nsis nasm ninja python msys2 --no-progress | Out-Null
+    - choco install -y nsis nasm ninja python msys2 7zip yasm strawberryperl --no-progress | Out-Null
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"; Update-SessionEnvironment
     - $env:PATH = "C:\msys64;C:\msys64\usr\bin;" + $env:PATH
 
     # Python helpers required by linphone SDK cmake
-    - pip install --quiet pystache six aqtinstall
+    - pip install --quiet pystache six aqtinstall meson
 
     # Qt 6 via aqtinstall
     - aqt install-qt windows desktop $env:QT_VERSION $env:QT_ARCH --modules $env:QT_MODULES.Split(' ') --outputdir C:\Qt
@@ -71,14 +71,18 @@ windows-installer:
   script:
     # ── 1. SDK submodules (use cache if present, else fresh clone) ──
     - |
+      $ErrorActionPreference = "Stop"
       if (-Not (Test-Path "external/linphone-sdk/.git")) {
         Write-Output "=== Cloning linphone-sdk ==="
         Remove-Item -Recurse -Force external/linphone-sdk -ErrorAction SilentlyContinue
         git clone --depth 1 https://gitlab.linphone.org/BC/public/linphone-sdk.git external/linphone-sdk
+        if ($LASTEXITCODE -ne 0) { throw "SDK clone failed (exit code $LASTEXITCODE)" }
       }
       Write-Output "=== Fetching tags and full history for git describe ==="
       git -C external/linphone-sdk fetch --tags
-      git -C external/linphone-sdk fetch --unshallow
+      if ($LASTEXITCODE -ne 0) { throw "git fetch --tags failed (exit code $LASTEXITCODE)" }
+      git -C external/linphone-sdk fetch --unshallow 2>&1 | ForEach-Object { Write-Output $_ }
+      if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne 128) { throw "git fetch --unshallow failed (exit code $LASTEXITCODE)" }
       Write-Output "=== Updating SDK submodules (sequential to avoid rate-limit) ==="
       $attempts = 0
       do {
