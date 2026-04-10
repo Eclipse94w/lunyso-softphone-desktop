@@ -36,15 +36,12 @@ windows-installer:
     - choco install -y cmake --installargs "ADD_CMAKE_TO_PATH=System" --version 3.28.4 | Out-Null
     - choco install -y nsis nasm ninja python msys2 7zip yasm strawberryperl --no-progress | Out-Null
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"; Update-SessionEnvironment
-    - $env:PATH = "C:\msys64;C:\msys64\usr\bin;" + $env:PATH
-
     # Python helpers required by linphone SDK cmake
     - pip install --quiet pystache six aqtinstall meson
 
     # Qt 6 via aqtinstall
     - aqt install-qt windows desktop $env:QT_VERSION $env:QT_ARCH --modules $env:QT_MODULES.Split(' ') --outputdir C:\Qt
     - $env:Qt6_DIR  = "C:\Qt\$env:QT_VERSION\msvc2019_64\lib\cmake\Qt6"
-    - $env:PATH     = "C:\Qt\$env:QT_VERSION\msvc2019_64\bin;" + $env:PATH
 
     # Find Visual Studio vcvars64.bat (edition varies per runner image)
     - |
@@ -67,6 +64,9 @@ windows-installer:
         Write-Output "=== Found vcvars64.bat at: $vcvars ==="
         cmd.exe /c "call `"$vcvars`" && set" |
           ForEach-Object { if ($_ -match '^([^=]+)=(.*)$') { Set-Item "env:\$($matches[1])" $matches[2] } }
+
+    # Restore paths that vcvars64.bat overwrites (it replaces $env:PATH with cmd.exe's PATH)
+    - $env:PATH = "C:\Qt\$env:QT_VERSION\msvc2019_64\bin;C:\msys64;C:\msys64\usr\bin;" + $env:PATH
 
   script:
     # ── 1. SDK submodules (use cache if present, else fresh clone) ──
