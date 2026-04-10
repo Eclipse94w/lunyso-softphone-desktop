@@ -75,6 +75,8 @@ windows-installer:
         Remove-Item -Recurse -Force external/linphone-sdk -ErrorAction SilentlyContinue
         git clone --depth 1 https://gitlab.linphone.org/BC/public/linphone-sdk.git external/linphone-sdk
       }
+      Write-Output "=== Fetching tags for git describe ==="
+      git -C external/linphone-sdk fetch --tags
       Write-Output "=== Updating SDK submodules (sequential to avoid rate-limit) ==="
       $attempts = 0
       do {
