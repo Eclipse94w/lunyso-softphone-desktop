@@ -4,6 +4,7 @@
 #################################################
 
 variables:
+  GIT_SUBMODULE_STRATEGY: "none"   # all jobs do manual submodule init to skip external/ispell
   GIT_SUBMODULE_DEPTH: 1
   MAKEFILE_JOBS: 4
   QT_VERSION: "5.15.2"
@@ -29,12 +30,17 @@ build-windows:
     - saas-windows-medium-amd64
   timeout: 5h
   variables:
-    GIT_SUBMODULE_STRATEGY: recursive
     CMAKE_GENERATOR: "Ninja"
     LINPHONESDK_PLATFORM: "Desktop"
     QT_ROOT: "C:/Qt/${QT_VERSION}/msvc2019_64"
 
   before_script:
+    # Init only the submodules we need — ispell is Linux-only and its GitHub
+    # repo blocks anonymous clones on shared runners
+    - git submodule update --init --depth 1 external/qtkeychain
+    - git submodule update --init --depth 1 linphone-sdk
+    - git -C linphone-sdk submodule update --init --recursive --depth 1
+
     - choco install -y --no-progress python cmake ninja nsis 7zip git-lfs
     - refreshenv
     - python -m pip install --upgrade pip
@@ -117,19 +123,19 @@ build-linux:
     DEBIAN_FRONTEND: "noninteractive"
     TZ: "Europe/Paris"
     CMAKE_GENERATOR: "Ninja"
-    # Disable automatic recursive submodule clone — we do it manually below
-    # to skip external/ispell (GitHub blocks anonymous clones from shared runners)
-    GIT_SUBMODULE_STRATEGY: "none"
 
   before_script:
+    # git must be installed before submodule init
+    - apt-get update -qq
+    - apt-get install -y --no-install-recommends git ca-certificates
     - git submodule update --init --depth 1 external/qtkeychain
     - git submodule update --init --depth 1 linphone-sdk
     - git -C linphone-sdk submodule update --init --recursive --depth 1
-    - apt-get update
+
     - apt-get install -y --no-install-recommends
-        build-essential cmake ninja-build git git-lfs pkg-config
+        build-essential cmake ninja-build git-lfs pkg-config
         python3 python3-pip doxygen yasm nasm
-        ca-certificates wget curl file fuse libfuse2 desktop-file-utils
+        wget curl file fuse libfuse2 desktop-file-utils
         libssl-dev libxml2-dev libsqlite3-dev libsoup2.4-dev
         libopus-dev libvpx-dev libbz2-dev
         libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
@@ -180,13 +186,12 @@ package-linux:
   variables:
     DEBIAN_FRONTEND: "noninteractive"
   before_script:
-    - apt-get update
+    - apt-get update -qq
     - apt-get install -y --no-install-recommends
         cmake ninja-build file desktop-file-utils fuse libfuse2
         ca-certificates wget curl
         qtbase5-dev qttools5-dev qttools5-dev-tools
         qtwebengine5-dev qtmultimedia5-dev
-    # linuxdeployqt (used by create_appimage.sh)
     - wget -q https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage -O /usr/local/bin/linuxdeployqt
     - chmod +x /usr/local/bin/linuxdeployqt
   script:
