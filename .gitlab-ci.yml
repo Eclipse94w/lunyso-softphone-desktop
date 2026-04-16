@@ -1,73 +1,107 @@
 #################################################
-# Base configuration
+# Lunyso Desktop — Windows build pipeline
+# Based on linphone-desktop 5.3.4 + Lunyso branding
 #################################################
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  MAKEFILE_JOBS: 5
-  CCACHE_SIZE: 2G
-#this option is used to speedup submodule building times, when we don't need to trace debug (like SDK where it is already tested in its project)
-  LBC_NODEBUG_OPTIONS : --parallel $MAKEFILE_JOBS
-  DEFAULT_LINUX_CMAKE_OPTIONS: -DCMAKE_BUILD_PARALLEL_LEVEL=$MAKEFILE_JOBS
-  DEFAULT_MACOS_CMAKE_OPTIONS: -DCMAKE_BUILD_PARALLEL_LEVEL=$MAKEFILE_JOBS
-  DEFAULT_WINDOWS_CMAKE_OPTIONS: -DCMAKE_BUILD_PARALLEL_LEVEL=$MAKEFILE_JOBS
-
-#  DEFAULT_LINUX_CMAKE_OPTIONS: -DENABLE_NON_FREE_CODECS=YES -DENABLE_OPENH264=YES
-#  DEFAULT_MACOS_CMAKE_OPTIONS: -DCMAKE_OSX_DEPLOYMENT_TARGET=10.11 -DENABLE_UPDATE_CHECK=YES
-#  DEFAULT_WINDOWS_CMAKE_OPTIONS: -DENABLE_NON_FREE_CODECS=YES -DENABLE_OPENH264=YES -DENABLE_UPDATE_CHECK=YES
-
- #activated by default, if there is a problem, see the default
-  #build options in CMakeBuilder
-  #CMAKE_OPTIONS: -DENABLE_LIME_X3DH=YES
-
-# Docker image version
-  ARCHLINUX_IMAGE_VERSION: latestupdated
-  CENTOS_7_QT_IMAGE_VERSION: 20211012_add_qtwebview
-  DEBIAN_9_QT_IMAGE_VERSION: 20230417_qtopen_gstreamer
-  DEBIAN_10_IMAGE_VERSION: 20210217_python3
-  UBUNTU_ROLLING_IMAGE_VERSION: 20211012_add_qtwebview
-  UBUNTU_1804_IMAGE_VERSION: 20230706_add_deps_for_av1
-  UBUNTU_2004_IMAGE_VERSION: 20231024_add_multimedia
-
+  GIT_SUBMODULE_DEPTH: 1
+  MAKEFILE_JOBS: 4
+  QT_VERSION: "5.15.2"
+  QT_ARCH: "win64_msvc2019_64"
+  CI_BUILD_TYPE: "RelWithDebInfo"
 
 workflow:
   rules:
-    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"
-      when: never
-    #Launch merge request pipeline is there is a merge request open
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TITLE !~ /^Draft:.*/
-    #Launch pipeline if there is a schedule event
-    - if: $CI_PIPELINE_SOURCE == "schedule"
-
-
-.rules-merge-request-manual:
-  rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
-      
-#################################################
-# Platforms to test
-#################################################
-
-.job-prepare:
-  variables:
-    ALL_JOB_VARIABLE: ""
-.prepare:
-  variables:
-    ALL_JOB_VARIABLE: ""
-
-include:
-  - '.gitlab-ci-files/rules.yml'
-  - '.gitlab-ci-files/job-linux-prepare.yml'
-  - '.gitlab-ci-files/job-linux-desktop.yml'
-  - '.gitlab-ci-files/job-linux-desktop-ubuntu-2004.yml'
-  - '.gitlab-ci-files/job-windows-desktop.yml'
-  - '.gitlab-ci-files/job-macosx-desktop.yml'
-
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 stages:
   - build
   - package
-  - signing
-  - deploy
+
+#################################################
+# Windows build job (GitLab SaaS runner)
+#################################################
+build-windows:
+  stage: build
+  tags:
+    - saas-windows-medium-amd64
+  timeout: 5h
+  variables:
+    CMAKE_GENERATOR: "Ninja"
+    LINPHONESDK_PLATFORM: "Desktop"
+    QT_ROOT: "C:/Qt/${QT_VERSION}/msvc2019_64"
+
+  before_script:
+    # Ensure tooling: Python, CMake, Ninja, NSIS, 7zip, Git LFS
+    - choco install -y --no-progress python cmake ninja nsis 7zip git-lfs
+    - refreshenv
+    - python -m pip install --upgrade pip
+    - python -m pip install aqtinstall
+
+    # Install Qt 5.15.2 (desktop + qtwebengine + qtwebview modules)
+    - aqt install-qt windows desktop $env:QT_VERSION $env:QT_ARCH -O C:/Qt -m qtwebengine qtwebview qtmultimedia
+
+    # VS 2019/2022 dev env
+    - |
+      $vsPath = (& "${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe" -latest -property installationPath)
+      Write-Output "VS Path: $vsPath"
+      Import-Module (Join-Path $vsPath "Common7/Tools/Microsoft.VisualStudio.DevShell.dll")
+      Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -DevCmdArguments "-arch=x64 -host_arch=x64"
+
+    - $env:Path = "$env:QT_ROOT/bin;" + $env:Path
+    - cmake --version
+    - qmake --version
+
+  script:
+    - if (Test-Path build-desktop) { Remove-Item -Recurse -Force build-desktop }
+    - mkdir build-desktop
+    - cd build-desktop
+
+    - |
+      cmake .. -G "Ninja" `
+        -DCMAKE_BUILD_TYPE=$env:CI_BUILD_TYPE `
+        -DCMAKE_PREFIX_PATH="$env:QT_ROOT" `
+        -DLINPHONESDK_PLATFORM=Desktop `
+        -DENABLE_APP_PACKAGING=ON `
+        -DENABLE_UNIT_TESTS=OFF `
+        -DENABLE_G729=OFF `
+        -DENABLE_PQCRYPTO=OFF `
+        -DENABLE_GPL_THIRD_PARTIES=ON `
+        -DENABLE_CSHARP_WRAPPER=NO
+      if ($LastExitCode -ne 0) { throw "cmake configure failed" }
+
+    - cmake --build . --config $env:CI_BUILD_TYPE --parallel $env:MAKEFILE_JOBS
+    - if ($LastExitCode -ne 0) { throw "build failed" }
+
+    - cmake --build . --target install --config $env:CI_BUILD_TYPE
+    - if ($LastExitCode -ne 0) { throw "install failed" }
+
+  artifacts:
+    name: "lunyso-desktop-${CI_COMMIT_SHORT_SHA}"
+    paths:
+      - build-desktop/OUTPUT/**
+      - build-desktop/linphone-app/*.exe
+    when: always
+    expire_in: 2 weeks
+
+#################################################
+# Package (NSIS installer)
+#################################################
+package-windows:
+  stage: package
+  tags:
+    - saas-windows-medium-amd64
+  needs:
+    - build-windows
+  script:
+    - cd build-desktop
+    - cmake --build . --target package --config $env:CI_BUILD_TYPE
+  artifacts:
+    name: "lunyso-installer-${CI_COMMIT_SHORT_SHA}"
+    paths:
+      - build-desktop/*.exe
+    expire_in: 2 months
+  allow_failure: true

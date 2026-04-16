@@ -103,7 +103,7 @@
     </message>
     <message>
         <source>about</source>
-        <translation>A Linphone névjegye</translation>
+        <translation>A Lunyso névjegye</translation>
     </message>
     <message>
         <source>commandLineOptionFetchConfig</source>
@@ -2067,7 +2067,7 @@ Kattintson ide: &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt;
     </message>
     <message>
         <source>about</source>
-        <translation>A Linphone névjegye</translation>
+        <translation>A Lunyso névjegye</translation>
     </message>
     <message>
         <source>quit</source>
@@ -2097,7 +2097,7 @@ Kattintson ide: &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt;
     </message>
     <message>
         <source>about</source>
-        <translation>A Linphone névjegye</translation>
+        <translation>A Lunyso névjegye</translation>
     </message>
     <message>
         <source>quit</source>

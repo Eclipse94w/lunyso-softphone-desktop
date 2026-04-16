@@ -3273,7 +3273,7 @@
     </message>
     <message>
         <source>debugTooltip</source>
-        <translation>执行事务时在 Linphone 日志文件中获取详细日志（用于调试 TLS 连接）。</translation>
+        <translation>执行事务时在 Lunyso 日志文件中获取详细日志（用于调试 TLS 连接）。</translation>
     </message>
 </context>
 <context>

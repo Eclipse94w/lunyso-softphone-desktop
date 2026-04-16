@@ -1933,7 +1933,7 @@ Server URL ist nicht konfiguriert.</translation>
     </message>
     <message>
         <source>forcedMessage</source>
-        <translation>Laden Sie die Anwendung auf Ihren Computer, um kostenlos mit anderen Linphone Benutzern zu telefonieren und zu chatten.
+        <translation>Laden Sie die Anwendung auf Ihren Computer, um kostenlos mit anderen Lunyso Benutzern zu telefonieren und zu chatten.
 
 Klicken Sie hier: &lt;a href=&quot;%1&quot;&gt;%1&lt;/a&gt;
 </translation>

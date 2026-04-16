@@ -1,9 +1,9 @@
 [submodule "linphone-sdk"]
-path = linphone-sdk
-	url = https://gitlab.linphone.org/BC/public/linphone-sdk.git
+	path = linphone-sdk
+	url = https://github.com/BelledonneCommunications/linphone-sdk.git
 [submodule "external/qtkeychain"]
 	path = external/qtkeychain
-	url = https://gitlab.linphone.org/BC/public/external/qtkeychain.git
+	url = https://github.com/frankosterfeld/qtkeychain.git
 [submodule "external/ispell"]
 	path = external/ispell
-	url = https://gitlab.linphone.org/BC/public/external/ispell.git
+	url = https://github.com/kevina/ispell.git

@@ -2059,7 +2059,7 @@ Clique aqui: &lt;a href=&quot;%1&quot;&gt;%1 &lt;/a&gt;
     </message>
     <message>
         <source>noNewVersionAvailable</source>
-        <translation>Linphone está atualizado.</translation>
+        <translation>Lunyso está atualizado.</translation>
     </message>
     <message>
         <source>newVersionInstalled</source>

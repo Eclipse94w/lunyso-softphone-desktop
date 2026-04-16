@@ -22,3 +22,9 @@ assistant_supports_phone_numbers/readonly=0
 
 [account_creator]
 backend=1
+
+[ui_colors]
+i=#0068FF
+j=#44546A
+g=#44546A
+outgoing_bg=#E5EFFF
