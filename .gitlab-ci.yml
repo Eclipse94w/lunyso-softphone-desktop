@@ -21,10 +21,22 @@ stages:
   - build
   - package
 
+# Shared retry policy — covers transient apt mirror desync, network glitches,
+# and GitLab runner hiccups on both Linux and Windows SaaS runners.
+.retry_on_transient:
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+      - script_failure
+      - api_failure
+
 #################################################
 # Windows build (GitLab SaaS runner)
 #################################################
 build-windows:
+  extends: .retry_on_transient
   stage: build
   tags:
     - saas-windows-medium-amd64
@@ -94,6 +106,7 @@ build-windows:
 # Windows package (NSIS installer)
 #################################################
 package-windows:
+  extends: .retry_on_transient
   stage: package
   tags:
     - saas-windows-medium-amd64
@@ -114,6 +127,7 @@ package-windows:
 # Produces an AppImage that runs on Arch / Ubuntu / Fedora
 #################################################
 build-linux:
+  extends: .retry_on_transient
   stage: build
   image: ubuntu:22.04
   tags:
@@ -177,6 +191,7 @@ build-linux:
 # Linux package (AppImage)
 #################################################
 package-linux:
+  extends: .retry_on_transient
   stage: package
   image: ubuntu:22.04
   tags:
