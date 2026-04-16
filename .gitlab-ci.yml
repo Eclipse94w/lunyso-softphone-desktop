@@ -37,7 +37,7 @@ build-windows:
   before_script:
     # Init only the submodules we need — ispell is Linux-only and its GitHub
     # repo blocks anonymous clones on shared runners
-    - git submodule update --init --depth 1 external/qtkeychain
+    - git submodule update --init external/qtkeychain
     - git submodule update --init --depth 1 linphone-sdk
     - git -C linphone-sdk submodule update --init --recursive --depth 1
 
@@ -128,7 +128,7 @@ build-linux:
     # git must be installed before submodule init
     - apt-get update -qq
     - apt-get install -y --no-install-recommends git ca-certificates
-    - git submodule update --init --depth 1 external/qtkeychain
+    - git submodule update --init external/qtkeychain
     - git submodule update --init --depth 1 linphone-sdk
     - git -C linphone-sdk submodule update --init --recursive --depth 1
 
