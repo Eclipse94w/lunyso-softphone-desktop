@@ -37,7 +37,16 @@ jobs:
         shell: cmd
         run: |
           git submodule update --init external/qtkeychain
+          git config --global http.version HTTP/1.1
+          git config --global http.postBuffer 524288000
+          :retry
+          if exist linphone-sdk rmdir /s /q linphone-sdk
           git clone --depth 1 https://github.com/Eclipse94w/linphone-sdk-mirror.git linphone-sdk
+          if errorlevel 1 (
+            echo Clone failed, retrying in 15s...
+            timeout /t 15 /nobreak
+            goto retry
+          )
 
       - name: Install tools via Chocolatey
         shell: powershell
