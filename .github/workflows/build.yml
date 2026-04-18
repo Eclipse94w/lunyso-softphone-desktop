@@ -52,7 +52,6 @@ jobs:
         shell: powershell
         run: |
           choco install -y --no-progress python cmake ninja nsis 7zip git-lfs
-          refreshenv
 
       - name: Install aqtinstall
         shell: cmd
@@ -168,6 +167,7 @@ jobs:
             -DENABLE_GLX=OFF \
             -DENABLE_GL=OFF \
             -DENABLE_QT_GL=OFF \
+            -DENABLE_APP_SPELLING=OFF \
             -DLINPHONESDK_VERSION=5.3.4
 
       - name: Build
