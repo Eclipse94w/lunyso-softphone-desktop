@@ -604,7 +604,7 @@ else ()
 		src/components/other/desktop-tools/DesktopToolsLinux.cpp
 		src/components/other/desktop-tools/screen-saver/ScreenSaverDBus.cpp
 		src/components/other/desktop-tools/screen-saver/ScreenSaverXdg.cpp
-		src/components/other/spell-checker/SpellCheckerLinux.cpp
+		$<$<BOOL:${ENABLE_APP_SPELLING}>:src/components/other/spell-checker/SpellCheckerLinux.cpp>
 		)
 	list(APPEND HEADERS
 		#src/app/single-application/SingleApplicationDBusPrivate.hpp
