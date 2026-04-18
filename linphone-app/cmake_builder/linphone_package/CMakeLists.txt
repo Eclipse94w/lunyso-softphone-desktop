@@ -332,7 +332,9 @@ else()# Not Windows and Apple
 		install(FILES "${QT_PATH}/plugins/webview/libqtwebview_webengine.so" DESTINATION "plugins/webview")	#Workaround : linuxdeploy doesn't deploy it
 	endif()
 # ISPELL
-	install(DIRECTORY "${ISpell_SOURCE_DIR}/ispell_dictionaries" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/${EXECUTABLE_NAME}" USE_SOURCE_PERMISSIONS)
+	if(ENABLE_APP_SPELLING AND ISpell_SOURCE_DIR)
+		install(DIRECTORY "${ISpell_SOURCE_DIR}/ispell_dictionaries" DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/${EXECUTABLE_NAME}" USE_SOURCE_PERMISSIONS)
+	endif()
 endif ()
 
 
