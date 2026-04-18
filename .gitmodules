@@ -1,6 +1,6 @@
 [submodule "linphone-sdk"]
 	path = linphone-sdk
-	url = https://gitlab.linphone.org/BC/public/linphone-sdk.git
+	url = https://github.com/Eclipse94w/linphone-sdk-mirror.git
 [submodule "external/qtkeychain"]
 	path = external/qtkeychain
 	url = https://gitlab.linphone.org/BC/public/external/qtkeychain.git
