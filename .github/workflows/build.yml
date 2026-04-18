@@ -73,7 +73,7 @@ jobs:
       - name: Configure CMake
         shell: cmd
         run: |
-          set PATH=C:\Program Files\Git\usr\bin;%PATH%
+          set PATH=%PATH%;C:\Program Files\Git\usr\bin
           if exist build-windows rmdir /s /q build-windows
           mkdir build-windows
           cd build-windows
@@ -93,7 +93,7 @@ jobs:
         working-directory: build-windows
         shell: cmd
         run: |
-          set PATH=C:\Program Files\Git\usr\bin;%PATH%
+          set PATH=%PATH%;C:\Program Files\Git\usr\bin
           cmake --build . --config %BUILD_TYPE% --parallel %MAKEFILE_JOBS%
 
       - name: Install
