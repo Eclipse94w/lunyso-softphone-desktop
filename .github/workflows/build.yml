@@ -1,0 +1,182 @@
+name: Build lunyso-desktop
+
+on:
+  push:
+    branches: [main, lunyso-5.3.4]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      build_target:
+        description: 'Target platform'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, linux, windows]
+
+env:
+  BUILD_TYPE: RelWithDebInfo
+  QT_VERSION: "5.15.2"
+  MAKEFILE_JOBS: 4
+
+jobs:
+  # ── Windows ──────────────────────────────────────────────────────────────
+  build-windows:
+    name: Windows (MSVC 2019 + Qt 5.15.2)
+    runs-on: windows-2019
+    if: >-
+      github.event.inputs.build_target == 'all' ||
+      github.event.inputs.build_target == 'windows' ||
+      github.event_name != 'workflow_dispatch'
+    timeout-minutes: 300
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Init submodules (skip ispell)
+        shell: bash
+        run: |
+          git submodule update --init external/qtkeychain
+          git submodule update --init --depth 1 linphone-sdk
+          git -C linphone-sdk submodule update --init --recursive --depth 1
+
+      - name: Install tools via Chocolatey
+        shell: powershell
+        run: |
+          choco install -y --no-progress python cmake ninja nsis 7zip git-lfs
+          refreshenv
+
+      - name: Install aqtinstall
+        shell: cmd
+        run: python -m pip install aqtinstall
+
+      - name: Install Qt 5.15.2
+        shell: cmd
+        run: |
+          aqt install-qt windows desktop %QT_VERSION% win64_msvc2019_64 -O C:\Qt -m qtmultimedia
+
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Configure CMake
+        shell: cmd
+        run: |
+          if exist build-windows rmdir /s /q build-windows
+          mkdir build-windows
+          cd build-windows
+          cmake .. -G Ninja ^
+            -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ^
+            -DCMAKE_PREFIX_PATH=C:\Qt\%QT_VERSION%\msvc2019_64 ^
+            -DLINPHONESDK_PLATFORM=Desktop ^
+            -DENABLE_APP_PACKAGING=ON ^
+            -DENABLE_UNIT_TESTS=OFF ^
+            -DENABLE_G729=OFF ^
+            -DENABLE_PQCRYPTO=OFF ^
+            -DENABLE_GPL_THIRD_PARTIES=ON ^
+            -DENABLE_CSHARP_WRAPPER=NO ^
+            -DLINPHONESDK_VERSION=5.3.4
+
+      - name: Build
+        working-directory: build-windows
+        shell: cmd
+        run: cmake --build . --config %BUILD_TYPE% --parallel %MAKEFILE_JOBS%
+
+      - name: Install
+        working-directory: build-windows
+        shell: cmd
+        run: cmake --build . --target install --config %BUILD_TYPE%
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lunyso-desktop-windows-${{ github.sha }}
+          path: build-windows/OUTPUT/**
+          retention-days: 30
+
+      - name: Build NSIS installer
+        working-directory: build-windows
+        shell: cmd
+        run: cmake --build . --target package --config %BUILD_TYPE%
+        continue-on-error: true
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: lunyso-installer-windows-${{ github.sha }}
+          path: build-windows/*.exe
+          retention-days: 90
+          if-no-files-found: ignore
+
+  # ── Linux ─────────────────────────────────────────────────────────────────
+  build-linux:
+    name: Linux (Ubuntu 22.04 + Qt5)
+    runs-on: ubuntu-22.04
+    if: >-
+      github.event.inputs.build_target == 'all' ||
+      github.event.inputs.build_target == 'linux' ||
+      github.event_name != 'workflow_dispatch'
+    timeout-minutes: 300
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build git git-lfs pkg-config \
+            python3 python3-pip doxygen yasm nasm perl \
+            wget curl file \
+            libssl-dev libxml2-dev libsqlite3-dev \
+            libopus-dev libvpx-dev libbz2-dev \
+            libx11-dev libxv-dev libxrandr-dev libxfixes-dev \
+            libpulse-dev libasound2-dev libv4l-dev libudev-dev \
+            libmbedtls-dev libsrtp2-dev \
+            qtbase5-dev qtdeclarative5-dev \
+            qtquickcontrols2-5-dev \
+            qtmultimedia5-dev qttools5-dev qttools5-dev-tools \
+            libqt5svg5-dev \
+            qml-module-qtquick-controls2 qml-module-qtquick-dialogs \
+            qml-module-qt-labs-platform \
+            qt5-image-formats-plugins
+          python3 -m pip install pystache six
+
+      - name: Init submodules (skip ispell)
+        run: |
+          git submodule update --init external/qtkeychain
+          git submodule update --init --depth 1 linphone-sdk
+          git -C linphone-sdk submodule update --init --recursive --depth 1
+
+      - name: Configure CMake
+        run: |
+          mkdir -p build-linux && cd build-linux
+          cmake .. -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DLINPHONESDK_PLATFORM=Desktop \
+            -DENABLE_APP_PACKAGING=OFF \
+            -DENABLE_UNIT_TESTS=OFF \
+            -DENABLE_G729=OFF \
+            -DENABLE_PQCRYPTO=OFF \
+            -DENABLE_GPL_THIRD_PARTIES=ON \
+            -DENABLE_CSHARP_WRAPPER=NO \
+            -DENABLE_LDAP=OFF \
+            -DENABLE_V4L=ON \
+            -DENABLE_GLX=OFF \
+            -DENABLE_GL=OFF \
+            -DENABLE_QT_GL=OFF \
+            -DLINPHONESDK_VERSION=5.3.4
+
+      - name: Build
+        working-directory: build-linux
+        run: cmake --build . --target install --parallel ${{ env.MAKEFILE_JOBS }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lunyso-desktop-linux-${{ github.sha }}
+          path: build-linux/OUTPUT/**
+          retention-days: 30
