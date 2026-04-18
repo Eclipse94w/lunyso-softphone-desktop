@@ -145,8 +145,8 @@ jobs:
       - name: Init submodules (skip ispell)
         run: |
           git submodule update --init external/qtkeychain
-          git submodule update --init --depth 1 linphone-sdk
-          git -C linphone-sdk submodule update --init --recursive --depth 1
+          rm -rf linphone-sdk
+          git clone --depth 1 https://github.com/Eclipse94w/linphone-sdk-mirror.git linphone-sdk
 
       - name: Configure CMake
         run: |
