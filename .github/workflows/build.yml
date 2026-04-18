@@ -101,10 +101,9 @@ jobs:
         shell: cmd
         run: |
           set PATH=%PATH%;C:\Program Files\Git\usr\bin
-          if exist build-windows rmdir /s /q build-windows
-          mkdir build-windows
-          cd build-windows
-          cmake .. -G Ninja ^
+          if exist C:\b rmdir /s /q C:\b
+          mkdir C:\b
+          cmake -B C:\b -S . -G Ninja ^
             -DCMAKE_BUILD_TYPE=%BUILD_TYPE% ^
             -DCMAKE_PREFIX_PATH=C:/Qt/%QT_VERSION%/msvc2019_64 ^
             -DLINPHONESDK_PLATFORM=Desktop ^
@@ -119,19 +118,19 @@ jobs:
             -DLINPHONESDK_VERSION=5.3.4
 
       - name: Build
-        working-directory: build-windows
+        working-directory: C:\b
         shell: cmd
         run: |
           set PATH=%PATH%;C:\Program Files\Git\usr\bin
           cmake --build . --config %BUILD_TYPE% --parallel %MAKEFILE_JOBS%
 
       - name: Install
-        working-directory: build-windows
+        working-directory: C:\b
         shell: cmd
         run: cmake --build . --target install --config %BUILD_TYPE%
 
       - name: Build NSIS installer
-        working-directory: build-windows
+        working-directory: C:\b
         shell: cmd
         run: cmake --build . --target package --config %BUILD_TYPE%
         continue-on-error: true
@@ -139,8 +138,8 @@ jobs:
       - name: List output
         shell: cmd
         run: |
-          dir build-windows\OUTPUT\ /s /b 2>nul || echo "OUTPUT not found"
-          dir build-windows\*.exe 2>nul || echo "No installer found"
+          dir C:\b\OUTPUT\ /s /b 2>nul || echo "OUTPUT not found"
+          dir C:\b\*.exe 2>nul || echo "No installer found"
 
   # ── Linux ─────────────────────────────────────────────────────────────────
   build-linux:
