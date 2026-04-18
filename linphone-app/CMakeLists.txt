@@ -344,7 +344,7 @@ set(SOURCES
 	src/components/other/timeZone/TimeZoneListModel.cpp
 	src/components/other/timeZone/TimeZoneProxyModel.cpp
 	src/components/other/units/Units.cpp
-	src/components/other/spell-checker/SpellChecker.cpp
+	$<$<BOOL:${ENABLE_APP_SPELLING}>:src/components/other/spell-checker/SpellChecker.cpp>
 	src/components/participant/ParticipantModel.cpp
 	src/components/participant/ParticipantListModel.cpp
 	src/components/participant/ParticipantProxyModel.cpp
