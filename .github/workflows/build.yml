@@ -54,7 +54,7 @@ jobs:
       - name: Install tools via Chocolatey
         shell: powershell
         run: |
-          choco install -y --no-progress python cmake ninja nsis 7zip git-lfs make
+          choco install -y --no-progress python cmake ninja nsis 7zip git-lfs
 
       - name: Install aqtinstall
         shell: cmd
@@ -87,6 +87,7 @@ jobs:
             -DENABLE_PQCRYPTO=OFF ^
             -DENABLE_GPL_THIRD_PARTIES=ON ^
             -DENABLE_CSHARP_WRAPPER=NO ^
+            -DENABLE_VPX=OFF ^
             -DLINPHONESDK_VERSION=5.3.4
 
       - name: Build
