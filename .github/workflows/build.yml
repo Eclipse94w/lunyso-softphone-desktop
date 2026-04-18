@@ -92,7 +92,9 @@ jobs:
       - name: Build
         working-directory: build-windows
         shell: cmd
-        run: cmake --build . --config %BUILD_TYPE% --parallel %MAKEFILE_JOBS%
+        run: |
+          set PATH=C:\Program Files\Git\usr\bin;%PATH%
+          cmake --build . --config %BUILD_TYPE% --parallel %MAKEFILE_JOBS%
 
       - name: Install
         working-directory: build-windows
