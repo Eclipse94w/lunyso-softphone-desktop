@@ -141,6 +141,7 @@ jobs:
             libx11-dev libxv-dev libxrandr-dev libxfixes-dev \
             libpulse-dev libasound2-dev libv4l-dev libudev-dev \
             libmbedtls-dev libsrtp2-dev \
+            libgles2-mesa-dev \
             qtbase5-dev qtdeclarative5-dev \
             qtquickcontrols2-5-dev \
             qtmultimedia5-dev qttools5-dev qttools5-dev-tools \
