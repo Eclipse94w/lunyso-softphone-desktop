@@ -70,6 +70,33 @@ jobs:
         with:
           arch: x64
 
+      - name: Patch Doxyfile.in (remove tags obsolete in doxygen >= 1.9.1)
+        shell: powershell
+        run: |
+          $files = @(
+            "linphone-sdk\liblinphone\coreapi\help\doc\doxygen\Doxyfile.in",
+            "linphone-sdk\liblinphone\wrappers\cpp\Doxyfile.in"
+          )
+          $obsolete = @(
+            'COLS_IN_ALPHA_INDEX\s*=\s*\d+',
+            'CLASS_DIAGRAMS\s*=\s*\w+',
+            'DOT_FONTNAME\s*=\s*.*',
+            'DOT_FONTSIZE\s*=\s*\d+',
+            'DOT_FONTPATH\s*=.*',
+            'TEMPLATE_RELATIONS\s*=\s*\w+',
+            'DOT_TRANSPARENT\s*=\s*\w+',
+            'GENERATE_LEGEND\s*=\s*\w+'
+          )
+          foreach ($f in $files) {
+            if (Test-Path $f) {
+              $content = Get-Content $f -Raw
+              foreach ($pat in $obsolete) {
+                $content = $content -replace "(?m)^$pat\r?$", ''
+              }
+              Set-Content $f $content -NoNewline
+            }
+          }
+
       - name: Configure CMake
         shell: cmd
         run: |

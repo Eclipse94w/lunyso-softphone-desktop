@@ -44,7 +44,9 @@
 #include "components/history/CallHistoryProxyModel.hpp"
 #include "components/other/date/DateModel.hpp"
 #include "components/other/desktop-tools/DesktopTools.hpp"
+#ifdef ENABLE_APP_SPELLING
 #include "components/other/spell-checker/SpellChecker.hpp"
+#endif
 #include "config.h"
 #include "logger/Logger.hpp"
 #include "paths/Paths.hpp"
@@ -801,7 +803,9 @@ void App::registerTypes() {
 	registerType<SoundPlayer>("SoundPlayer");
 	registerType<TelephoneNumbersModel>("TelephoneNumbersModel");
 	registerType<ScreenProxyModel>("ScreenProxyModel");
+#ifdef ENABLE_APP_SPELLING
 	registerType<SpellChecker>("SpellChecker");
+#endif
 
 	registerSingletonType<AudioCodecsModel>("AudioCodecsModel");
 	registerSingletonType<OwnPresenceModel>("OwnPresenceModel");
