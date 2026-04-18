@@ -60,7 +60,7 @@ jobs:
       - name: Install Qt 5.15.2
         shell: cmd
         run: |
-          aqt install-qt windows desktop %QT_VERSION% win64_msvc2019_64 -O C:\Qt -m qtmultimedia
+          aqt install-qt windows desktop %QT_VERSION% win64_msvc2019_64 -O C:\Qt
 
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
