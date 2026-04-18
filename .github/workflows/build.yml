@@ -54,7 +54,7 @@ jobs:
       - name: Install tools via Chocolatey
         shell: powershell
         run: |
-          choco install -y --no-progress python cmake ninja nsis 7zip git-lfs
+          choco install -y --no-progress python cmake ninja nsis 7zip git-lfs make
 
       - name: Install aqtinstall
         shell: cmd
