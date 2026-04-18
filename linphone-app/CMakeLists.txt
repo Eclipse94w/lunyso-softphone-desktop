@@ -499,7 +499,7 @@ set(HEADERS
 	src/components/other/timeZone/TimeZoneListModel.hpp
 	src/components/other/timeZone/TimeZoneProxyModel.hpp
 	src/components/other/units/Units.hpp
-	src/components/other/spell-checker/SpellChecker.hpp
+	$<$<BOOL:${ENABLE_APP_SPELLING}>:src/components/other/spell-checker/SpellChecker.hpp>
 	src/components/participant/ParticipantModel.hpp
 	src/components/participant/ParticipantListModel.hpp
 	src/components/participant/ParticipantProxyModel.hpp

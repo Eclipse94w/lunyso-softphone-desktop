@@ -88,6 +88,7 @@ jobs:
             -DENABLE_GPL_THIRD_PARTIES=ON ^
             -DENABLE_CSHARP_WRAPPER=NO ^
             -DENABLE_VPX=OFF ^
+            -DENABLE_DOC=OFF ^
             -DLINPHONESDK_VERSION=5.3.4
 
       - name: Build
