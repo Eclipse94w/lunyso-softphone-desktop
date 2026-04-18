@@ -125,7 +125,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build git git-lfs pkg-config \
+            build-essential cmake ninja-build meson git git-lfs pkg-config \
             python3 python3-pip doxygen yasm nasm perl \
             wget curl file \
             libssl-dev libxml2-dev libsqlite3-dev \
