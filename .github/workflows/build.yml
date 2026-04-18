@@ -87,27 +87,17 @@ jobs:
         shell: cmd
         run: cmake --build . --target install --config %BUILD_TYPE%
 
-      - name: Upload binary artifact
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: lunyso-desktop-windows-${{ github.sha }}
-          path: build-windows/OUTPUT/**
-          retention-days: 30
-
       - name: Build NSIS installer
         working-directory: build-windows
         shell: cmd
         run: cmake --build . --target package --config %BUILD_TYPE%
         continue-on-error: true
 
-      - name: Upload installer
-        uses: actions/upload-artifact@v4
-        with:
-          name: lunyso-installer-windows-${{ github.sha }}
-          path: build-windows/*.exe
-          retention-days: 90
-          if-no-files-found: ignore
+      - name: List output
+        shell: cmd
+        run: |
+          dir build-windows\OUTPUT\ /s /b 2>nul || echo "OUTPUT not found"
+          dir build-windows\*.exe 2>nul || echo "No installer found"
 
   # ── Linux ─────────────────────────────────────────────────────────────────
   build-linux:
