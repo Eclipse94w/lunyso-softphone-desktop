@@ -342,6 +342,50 @@ void SettingsModel::setDeviceName(const QString &deviceName) {
 }
 
 // =============================================================================
+// Outbound Identity — LUNYSO SDA selector.
+// =============================================================================
+//
+// Reads from linphonerc [ui] section:
+//   outbound_identities = +33189316259,+33189316356,+33451221504
+//   outbound_identity_default = +33189316259
+//
+// CallsListModel injects ${selectedOutboundIdentity} as P-Preferred-Identity
+// SIP header on every outgoing INVITE. The XiVO dialplan reads the header
+// and uses it as CALLERID(num) for the Telnyx P-Asserted-Identity.
+
+QStringList SettingsModel::getOutboundIdentities() const {
+	QString raw = Utils::coreStringToAppString(mConfig->getString(UiSection, "outbound_identities", ""));
+	if (raw.isEmpty()) return {};
+	QStringList list = raw.split(',', Qt::SkipEmptyParts);
+	for (auto &s : list) s = s.trimmed();
+	list.removeAll("");
+	return list;
+}
+
+QString SettingsModel::getSelectedOutboundIdentity() const {
+	QString stored = Utils::coreStringToAppString(mConfig->getString(UiSection, "outbound_identity_default", ""));
+	QStringList available = getOutboundIdentities();
+	if (available.isEmpty()) return "";
+	if (!stored.isEmpty() && available.contains(stored)) return stored;
+	return available.first();
+}
+
+void SettingsModel::setSelectedOutboundIdentity(const QString &identity) {
+	if (identity == getSelectedOutboundIdentity()) return;
+	mConfig->setString(UiSection, "outbound_identity_default", Utils::appStringToCoreString(identity));
+	emit selectedOutboundIdentityChanged();
+}
+
+bool SettingsModel::getOutboundIdentitiesEnabled() const {
+	return !getOutboundIdentities().isEmpty();
+}
+
+QString SettingsModel::getOutboundIdentityDomain() const {
+	return Utils::coreStringToAppString(
+	    mConfig->getString(UiSection, "outbound_identity_domain", "sip.telnyx.com"));
+}
+
+// =============================================================================
 // Audio.
 // =============================================================================
 

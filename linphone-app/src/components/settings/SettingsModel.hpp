@@ -78,6 +78,16 @@ class SettingsModel : public QObject {
 
 	Q_PROPERTY(QString deviceName READ getDeviceName WRITE setDeviceName NOTIFY deviceNameChanged)
 
+	// Outbound Identity (LUNYSO — SDA selector). --------------------------------
+	// Lets the user pick which caller-ID (DID/SDA) is presented for outgoing
+	// calls via P-Preferred-Identity SIP header (RFC 3325). Read by
+	// CallsListModel and injected on every outgoing INVITE.
+	Q_PROPERTY(QStringList outboundIdentities READ getOutboundIdentities NOTIFY outboundIdentitiesChanged)
+	Q_PROPERTY(QString selectedOutboundIdentity READ getSelectedOutboundIdentity WRITE setSelectedOutboundIdentity
+	               NOTIFY selectedOutboundIdentityChanged)
+	Q_PROPERTY(bool outboundIdentitiesEnabled READ getOutboundIdentitiesEnabled NOTIFY outboundIdentitiesChanged)
+	Q_PROPERTY(QString outboundIdentityDomain READ getOutboundIdentityDomain CONSTANT)
+
 	// Audio. --------------------------------------------------------------------
 
 	Q_PROPERTY(bool captureGraphRunning READ getCaptureGraphRunning NOTIFY captureGraphRunningChanged)
@@ -368,6 +378,13 @@ public:
 	static QString getDeviceName(const std::shared_ptr<linphone::Config> &config);
 	QString getDeviceName() const;
 	void setDeviceName(const QString &deviceName);
+
+	// Outbound Identity (LUNYSO — SDA selector). --------------------------------
+	QStringList getOutboundIdentities() const;
+	QString getSelectedOutboundIdentity() const;
+	void setSelectedOutboundIdentity(const QString &identity);
+	bool getOutboundIdentitiesEnabled() const;
+	QString getOutboundIdentityDomain() const;
 
 	// Audio. --------------------------------------------------------------------
 
@@ -805,6 +822,10 @@ signals:
 	// SIP Accounts. -------------------------------------------------------------
 
 	void deviceNameChanged();
+
+	// Outbound Identity (LUNYSO — SDA selector). --------------------------------
+	void outboundIdentitiesChanged();
+	void selectedOutboundIdentityChanged();
 
 	// Audio. --------------------------------------------------------------------
 

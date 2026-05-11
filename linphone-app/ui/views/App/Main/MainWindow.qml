@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Controls 2.2 as Controls
 import QtQuick.Layouts 1.3
 import Qt.labs.platform 1.0
 
@@ -22,8 +23,6 @@ ApplicationWindow {
 	property string _currentView
 	property var _lockedInfo
 	property SmartSearchBar mainSearchBar : (mainLoader.item ? mainLoader.item.mainSearchBar : null)
-	property var notifyNewVersionInstallWhenLoaded : false
-	
 	// ---------------------------------------------------------------------------
 	
 	function lockView (info) {
@@ -62,11 +61,6 @@ ApplicationWindow {
 													case 0 : Utils.infoDialog(window, qsTr('newVersionCheckError')); break;
 													case 1 : Logic.proposeDownloadUpdate(window, version, url); break;
 													case 2 : Utils.infoDialog(window, qsTr('noNewVersionAvailable')+"\n"+Qt.application.version); break;
-													case 3 : if (mainLoader.active)
-																Utils.infoDialog(window, qsTr('newVersionInstalled')+"\n"+Qt.application.version)
-															else
-																notifyNewVersionInstallWhenLoaded = true
-															break;
 													default : {}
 												}
 	}
@@ -120,10 +114,6 @@ ApplicationWindow {
                 if(!CoreManager.isLastRemoteProvisioningGood()) {
                     Logic.warnProvisioningFailed(window)
                 }
-				if (notifyNewVersionInstallWhenLoaded) {
-					notifyNewVersionInstallWhenLoaded = false
-					Utils.infoDialog(window, qsTr('newVersionInstalled')+"\n"+Qt.application.version)
-				}
 				switch(SettingsModel.getShowDefaultPage()) {
 					case 1 : window.setView('Calls'); break;
 					case 2 : window.setView('Conversations'); break;
@@ -259,6 +249,48 @@ ApplicationWindow {
 							}
 						}
 						onLaunchVideoCall: CallsListModel.launchVideoCall(sipAddress, '')
+					}
+					// LUNYSO — Outbound caller-ID (SDA) selector.
+					// Visible only if the install has outbound_identities configured
+					// in linphonerc. Sets P-Preferred-Identity SIP header on calls.
+					RowLayout {
+						visible: SettingsModel.outboundIdentitiesEnabled
+						Layout.preferredHeight: smartSearchBar.height
+						spacing: 4
+
+						Text {
+							text: qsTr('Numéro affiché :')
+							color: MainWindowStyle.searchBox.text ? MainWindowStyle.searchBox.text.colorModel.color : '#000000'
+							font.pointSize: 10
+							verticalAlignment: Text.AlignVCenter
+							Layout.alignment: Qt.AlignVCenter
+						}
+
+						Controls.ComboBox {
+							id: sdaSelector
+							Layout.preferredWidth: 170
+							Layout.preferredHeight: smartSearchBar.height
+							model: SettingsModel.outboundIdentities
+							function _formatFr(num) {
+								// +33189316259 → 01 89 31 62 59
+								if (!num) return ''
+								if (num.indexOf('+33') === 0) {
+									var local = '0' + num.substring(3)
+									return local.replace(/(\d{2})(?=\d)/g, '$1 ').trim()
+								}
+								return num
+							}
+							displayText: _formatFr(currentText)
+							delegate: Controls.ItemDelegate {
+								width: sdaSelector.width
+								text: sdaSelector._formatFr(modelData)
+								highlighted: sdaSelector.highlightedIndex === index
+							}
+							currentIndex: Math.max(0, model.indexOf(SettingsModel.selectedOutboundIdentity))
+							onActivated: {
+								SettingsModel.selectedOutboundIdentity = model[currentIndex]
+							}
+						}
 					}
 					Item{
 						Layout.preferredWidth: telKeypad.width - 30

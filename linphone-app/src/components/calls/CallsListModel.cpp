@@ -43,6 +43,21 @@
 
 using namespace std;
 
+// LUNYSO — Inject P-Preferred-Identity (RFC 3325) on outgoing INVITE based on
+// the SDA selected by the user in the dialer. The XiVO dialplan reads this
+// header and uses it as CALLERID(num) for the outbound trunk (Telnyx).
+// No-op if outbound identities are not configured for this install.
+static void lunysoInjectOutboundIdentity(const std::shared_ptr<linphone::CallParams> &params) {
+	auto settings = CoreManager::getInstance()->getSettingsModel();
+	if (!settings || !settings->getOutboundIdentitiesEnabled()) return;
+	const QString sda = settings->getSelectedOutboundIdentity();
+	if (sda.isEmpty()) return;
+	const QString domain = settings->getOutboundIdentityDomain();
+	const std::string ppi = "<sip:" + Utils::appStringToCoreString(sda) + "@" +
+	                        Utils::appStringToCoreString(domain) + ">";
+	params->addCustomHeader("P-Preferred-Identity", ppi);
+}
+
 namespace {
 // Delay before removing call in ms.
 constexpr int DelayBeforeRemoveCall = 6000;
@@ -110,6 +125,7 @@ void CallsListModel::launchAudioCall(const QString &sipAddress,
 		params->addCustomHeader(Utils::appStringToCoreString(iterator.key()),
 		                        Utils::appStringToCoreString(iterator.value()));
 	}
+	lunysoInjectOutboundIdentity(params);
 	if (core->getDefaultAccount()) params->setAccount(core->getDefaultAccount());
 	CallModel::setRecordFile(params, Utils::coreStringToAppString(address->getUsername()));
 	shared_ptr<linphone::Account> currentAccount = core->getDefaultAccount();
@@ -154,6 +170,7 @@ void CallsListModel::launchSecureAudioCall(const QString &sipAddress,
 		params->addCustomHeader(Utils::appStringToCoreString(iterator.key()),
 		                        Utils::appStringToCoreString(iterator.value()));
 	}
+	lunysoInjectOutboundIdentity(params);
 	if (core->getDefaultAccount()) params->setAccount(core->getDefaultAccount());
 	CallModel::setRecordFile(params, Utils::coreStringToAppString(address->getUsername()));
 	shared_ptr<linphone::Account> currentAccount = core->getDefaultAccount();
@@ -211,6 +228,7 @@ void CallsListModel::launchVideoCall(const QString &sipAddress,
 	params->enableMic(enableMicro);
 	params->enableVideo(enableVideo);
 	params->setVideoDirection(enableCamera ? linphone::MediaDirection::SendRecv : linphone::MediaDirection::RecvOnly);
+	lunysoInjectOutboundIdentity(params);
 	if (core->getDefaultAccount()) params->setAccount(core->getDefaultAccount());
 	CallModel::setRecordFile(params, Utils::coreStringToAppString(address->getUsername()));
 
